@@ -1,213 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Photo Gallery Dump</title>
-  <script src="https://kit.fontawesome.com/642553ec8f.js" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Media Collection</title>
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background-color: #353535;
-      position: relative;
-      font-family: 'Roboto', sans-serif;
-      color: #ffffff;
-    }
+<style>
+html { scroll-behavior: smooth; }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('teen01.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.3;
-      z-index: -1;
-    }
+body{
+  margin:0;
+  min-height:100vh;
+  background:#353535;
+  font-family:'DM Sans', sans-serif;
+  color:#fff;
+}
 
-    h1 { font-size: 60px; text-align: center; font-family: 'Crimson Pro', 'SourceSerif Pro', serif; margin-top: 10px; margin-bottom: 10px; }
-    h2 { font-size: 36px; text-align: center; margin-top: 60px; }
-    h3, h4 { text-align: center; color: #d9d9d9; }
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: url(teen01.jpg);
+  opacity:.3;
+  z-index:-1;
+}
 
-    .hero { margin-top: 120px; text-align: center; }
+/* HEADERS */
+h1{font-size:60px;text-align:center;margin:10px;font-family: 'Crimson Pro', serif;}
+h2{font-size:36px;text-align:center;margin-top:80px;}
+h3{color:#d9d9d9;}
+h4{color:#ccc;}
 
-    a.btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #3c6e71;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      margin: 5px;
-    }
+/* HERO */
+.hero{text-align:center;margin-top:120px;}
+a.btn{
+  display:inline-block;
+  padding:10px 20px;
+  background:#3c6e71;
+  color:#fff;
+  text-decoration:none;
+  border-radius:6px;
+  margin:5px;
+  transition: 0.3s ease;
+}
+a.btn:hover{background:#284b63;}
 
-    .collections { text-align: center; margin-top: 40px; }
-    .collections a { margin: 8px; }
+/* SECTION LAYOUT */
+.beats-columns, .beats-columns-tv{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+  padding:20px;
+}
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      padding: 30px;
-      max-width: 1200px;
-      margin: auto;
-    }
+/* CARD STYLE */
+.genre-column{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
 
-    .gallery-item {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-    }
+.gallery-item{
+  padding:20px;
+  border-radius:10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  background: rgba(60,110,113,0.1);
+  border:2px solid #3c6e71;
+  background-color: #3c6e71;
+}
 
-    .gallery-item img {
-      width: 100%;
-      height: 180px;          /* UNIFORM SIZE */
-      object-fit: cover;     /* CROP TO FIT */
-      border-radius: 8px;
-      cursor: pointer;
-      border: 2px solid #3c6e71;
-      transition: 0.3s;
-    }
 
-    .gallery-item img:hover {
-      transform: scale(1.05);
-    }
+.gallery-item img{
+  width:220px;
+  border-radius:10px;
+  border:2px solid #3c6e71;
+  margin-bottom:10px;
+  cursor:pointer;
+}
 
-    .caption {
-      margin-top: 6px;
-      font-size: 14px;
-      color: #d9d9d9;
-    }
+.gallery-item iframe{
+  margin-top:15px;
+  border-radius:10px;
+  width:320px;
+  height:180px;
+}
 
-    .backtop {
-      text-align: center;
-      margin: 30px;
-    }
+p{
+  margin:5px;
+}
 
-    .zoomed {
-      position: fixed;
-      inset: 5%;
-      background: #000;
-      z-index: 9999;
-      padding: 20px;
-      border-radius: 10px;
-    }
+.genre{
+  text-align:center;
+  margin-top:20px;
+  font-size:24px;
+  letter-spacing:2px;
+  color:#3c6e71;
+}
 
-    .zoomed img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
+.backtop{
+  text-align:center;
+  margin:40px 0;
+}
 
-    h2 {
-      padding-top: 50px;
-    }
+.caption{
+  font-size:14px;
+  font-style:italic;
+  color:#d9d9d9;
+}
+
+.info-small{
+  font-size: 13px;
+  color: #ccc;
+  opacity:0.8;
+  width: 250px;
+}
+  header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba(53, 53, 53, 0.95);
+  backdrop-filter: blur(6px);
+  padding: 18px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  color: #FFFFFF;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+nav {
+  display: flex;
+  gap: 28px;
+}
+
+nav a {
+  position: relative;
+  font-size: 14px;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background-color: #3c6e71;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+a{
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
   </style>
 </head>
 
-<body id="top" style="padding-top: 50px;">
+<body>
+
+<header>
+  <div class="logo">MC Palmero</div>
+  <nav>
+    <a href="https://palmeromc.github.io/Landing/">Home</a>
+    <a href="https://palmeromc.github.io/bio/">Biography</a>
+    <a href="https://palmeromc.github.io/BLOGG1/">Blogs</a>
+    <a href="https://palmeromc.github.io/PhotoDump/">Gallery</a>
+    <a href="https://palmeromc.github.io/Media-Page/">Medias</a>
+    <a href="https://palmeromc.github.io/DreamPlacesToVisit/">Dream Places</a>
+    <a href="https://palmeromc.github.io/Landing/#bucketlist">Bucket List</a>
+    <a href="https://palmeromc.github.io/Landing/#contacts">Contact</a>
+  </nav>
+</header>
+<body id="top">
 
 <!-- HERO -->
-<br><br><br>
-<div class="hero">
-  <h3>Welcome to my archive</h3>
-  <h1>Photo Gallery Dump</h1>
-  <h4>MC Palmero — BSCS 2nd Year</h4>
+<section id="land" class="hero" >
+  <h1>My Media Archive</h1>
+  <h3>Here are my favorite medias</h3>
   <br>
+  <a class="btn" href="#beats">Beats</a>
+  <a class="btn" href="#movies">Movies</a>
+  <a class="btn" href="#tvshows">TV Shows</a>
+</section>
 
-  <div class="collections">
-    <a class="btn" href="#col1">CAT PHOTOS</a>
-    <a class="btn" href="#col2">MOTORCYCLES</a>
-    <a class="btn" href="#col3">COLLEGE</a>
-    <a class="btn" href="#col4">TAGAYTAY SCENERIES</a>
+<!-- ================= BEATS ================= -->
+<section id="beats-section">
+<h2 id="beats">🎵 My Fave Beats</h2>
+
+<div class="beats-columns">
+
+  <!-- POP COLUMN -->
+  <div class="genre-column">
+    <h3 class="genre">POP</h3>
+
+    <div class="gallery-item">
+      <a href="Beatopia.jpg"><img src="Beatopia.jpg" title="Beatopia album image"></a>
+      <caption><em>The Perfect Pair</em></caption>
+      <audio controls muted style="margin-top: 5px;">
+        <source src="beabadoobee - the perfect pair (Official Audio).mp3" type="audio/mp3">
+      </audio>
+      <p><b>Artist:</b> Beabadoobee</p>
+      <p class="info-small">Album: Beatopia | Released: 2021</p>
+    </div>
+
+    <div class="gallery-item">
+      <a href="Short_n'_Sweet.png"><img src="Short_n'_Sweet.png" title="Short 'n Sweet album image"></a>
+      <caption><em>Good Graces</em></caption>
+      <audio controls muted style="margin-top: 5px;">
+        <source src="Sabrina Carpenter  Good Graces (Lyrics).mp3" type="audio/mp3">
+      </audio>
+      <p><b>Artist:</b> Sabrina Carpenter</p>
+      <p class="info-small">Album: Short 'n Sweet | Released: 2020</p>
+    </div>
   </div>
+
+  <!-- R&B COLUMN -->
+  <div class="genre-column">
+    <h3 class="genre">R&B</h3>
+
+    <div class="gallery-item">
+      <a href="AfterHours.png"><img src="AfterHours.png" title="After Hours album image"></a>
+      <caption><em>Blinding Lights</em></caption>
+      <audio controls muted style="margin-top: 5px;">
+        <source src="The Weeknd - Blinding Lights (Lyrics).mp3" type="audio/mp3"> 
+      </audio>
+      <p><b>Artist:</b> The Weeknd</p>
+      <p class="info-small">Album: After Hours | Released: 2020</p>
+    </div>
+
+    <div class="gallery-item">
+      <a href="1975.jpg"><img src="1975.jpg" title="The 1975 album image"></a>
+      <caption><em>Settle Down</em></caption>
+      <audio controls muted style="margin-top: 5px;">
+        <source src="The 1975 - Settle Down.mp3" type="audio/mp3">
+      </audio>
+      <p><b>Artist:</b> The 1975</p>
+      <p class="info-small">Album: The 1975 | Released: 2013</p>
+    </div>
+  </div>
+
 </div>
-<br><br><br><br><br><br><br><br>
-<!-- COLLECTION 1 -->
-<h2 id="col1">CAT PHOTOS</h2>
-<div class="gallery">
-  <div class="gallery-item"><img src="2CatsHugging.jpg"><div class="caption">Two Cats Hugging</div></div>
-  <div class="gallery-item"><img src="3Cats.jpg"><div class="caption">Cats Fighting</div></div>
-  <div class="gallery-item"><img src="CatInsideBag.jpg"><div class="caption">Cat Inside a Bag</div></div>
-  <div class="gallery-item"><img src="CatOnGrass.jpg"><div class="caption">Cat Laying on Grass</div></div>
-  <div class="gallery-item"><img src="CatSitting.jpg"><div class="caption">Cat Sitting on a Piece of Carton</div></div>
-</div>
-<br><br><br><br><br>
 <div class="backtop">
   <a class="btn" href="#top">Back to Top</a>
-  <a class="btn" href="#col2">Next →</a>
+  <a class="btn" href="#movies">Next →</a>
 </div>
-<br><br><br><br><br><br><br><br>
-<!-- COLLECTION 2 -->
-<h2 id="col2">MOTORCYCLES</h2>
-<div class="gallery">
-  <div class="gallery-item"><img src="BigBike.jpg"><div class="caption">Black Big Bike</div></div>
-  <div class="gallery-item"><img src="Burgman.jpg"><div class="caption">Suzuki Burgman</div></div>
-  <div class="gallery-item"><img src="ClassicBike.jpg"><div class="caption">Cafe Racer</div></div>
-  <div class="gallery-item"><img src="Rebel500.jpg"><div class="caption">Honda Rebel</div></div>
-  <div class="gallery-item"><img src="RedVespa.jpg"><div class="caption">Red Vespa Scooter</div></div>
+</section>
+
+<!-- ================= MOVIES ================= -->
+<section id="movies-section">
+<h2 id="movies">🎬 My Fave Film Movies</h2>
+
+<div class="beats-columns">
+
+  <!-- COMEDY -->
+  <div class="genre-column">
+    <h3 class="genre">Comedy</h3>
+    <div class="gallery-item">
+      <h3>The Amazing Praybeyt Benjamin</h3>
+      <a href="TAPB.jpg"><img src="TAPB.jpg" title="Poster"></a>
+      <p style="width:250px; opacity:0.6;">Colonel Benjamin "Benjie" Santos VIII navigates fame, military duty, and protects a genius child.</p>
+      <p><b>Director:</b> Wenn V. Deramas</p>
+      <p><b>Stars:</b> Vice Ganda, Richard Yap</p>
+      <!-- Bigger YouTube thumbnail -->
+      <iframe src="https://www.youtube.com/embed/lL73Ix1KLD4" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- HORROR/THRILLER -->
+  <div class="genre-column">
+    <h3 class="genre">Horror/Thriller</h3>
+    <div class="gallery-item">
+      <h3>Escape Room</h3>
+      <a href="Escape.jpg"><img src="Escape.jpg" title="Escape Room Poster"></a>
+      <p style="width:250px; opacity:0.6;">Six strangers enter deadly escape rooms and must solve puzzles to survive.</p>
+      <p><b>Director:</b> Adam Robitel</p>
+      <p><b>Stars:</b> Taylor Russel, Logan Miller</p>
+      <iframe src="https://www.youtube.com/embed/StoThowf7Y4" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
 </div>
-<br><br><br><br><br>
+
 <div class="backtop">
-  <a class="btn" href="#col1">← Previous</a>
+  <a class="btn" href="#beats">← Previous</a>
   <a class="btn" href="#top">Back to Top</a>
-  <a class="btn" href="#col3">Next →</a>
+  <a class="btn" href="#tvshows">Next →</a>
+</div>
+</section>
+
+<!-- ================= TV SHOWS ================= -->
+<section id="tvshows-section">
+<h2 id="tvshows">📺 My Fave TV Shows</h2>
+
+<div class="beats-columns-tv">
+
+  <!-- LEGAL DRAMA -->
+  <div class="genre-column">
+    <h3 class="genre">Legal Drama</h3>
+    <div class="gallery-item">
+      <h3>Suits</h3>
+      <a href="TheSuits.jpg"><img src="TheSuits.jpg" title="Suits Poster"></a>
+      <p style="width:250px; opacity:0.6;">Mike Ross, a college dropout with photographic memory, lands a law firm job despite no law school.</p>
+      <p><b>Director:</b> Aaron Korsh</p>
+      <p><b>Stars:</b> Gabriel Macht, Rick Hoffman, Patrick Addams</p>
+      <iframe src="https://www.youtube.com/embed/VkEjr6gNRmQ" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- SCIFI -->
+  <div class="genre-column">
+    <h3 class="genre">Sci-Fi</h3>
+    <div class="gallery-item">
+      <h3>Stranger Things</h3>
+      <a href="STRANGER.jpg"><img src="STRANGER.jpg" title="Stranger Things Poster"></a>
+      <p style="width:250px; opacity:0.6;">Kids in a small town encounter supernatural events and government conspiracies.</p>
+      <p><b>Director:</b> The Duffer Brothers</p>
+      <p><b>Stars:</b> Millie Bobby Brown, Finn Wolfhard, Winona Ryder</p>
+      <iframe src="https://www.youtube.com/embed/E4ScPro8YcI" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
 </div>
 
-<br><br><br><br><br><br><br><br>
-<!-- COLLECTION 3 -->
-<h2 id="col3">COLLEGE</h2>
-<div class="gallery">
-  <div class="gallery-item"><img src="FirstUaapGame.jpg"><div class="caption">First UAAP Game</div></div>
-  <div class="gallery-item"><img src="MandatoryPastil.jpg"><div class="caption">Pastil After Training</div></div>
-  <div class="gallery-item"><img src="PayingBass.jpg"><div class="caption">Playing Bass</div></div>
-  <div class="gallery-item"><img src="SpontyGala.jpg"><div class="caption">Sponty Gala</div></div>
-  <div class="gallery-item"><img src="UERDFam.jpg"><div class="caption">UERD Fam</div></div>
-</div>
-<br><br><br><br><br>
 <div class="backtop">
-  <a class="btn" href="#col2">← Previous</a>
+  <a class="btn" href="#movies">← Previous</a>
   <a class="btn" href="#top">Back to Top</a>
-  <a class="btn" href="#col4">Next →</a>
+  <a class="btn" href="DREAMDESTINATIONS.html">Proceed to Dream Destinations Page →</a>
 </div>
-
-<br><br><br><br><br><br><br><br>
-<!-- COLLECTION 4 -->
-<h2 id="col4">TAGAYTAY SCENERIES</h2>
-<div class="gallery">
-  <div class="gallery-item"><img src="LaGranjaCafe.jpg"><div class="caption">La Granja Cafe Front</div></div>
-  <div class="gallery-item"><img src="AndersenInSunrise.jpg"><div class="caption">Andersen in Daylight</div></div>
-  <div class="gallery-item"><img src="CrosswindsTree.jpg"><div class="caption">Crosswinds Christmas Tree</div></div>
-  <div class="gallery-item"><img src="BalconyView.jpg"><div class="caption">Tagaytay Balcony View</div></div>
-  <div class="gallery-item"><img src="LausanneView.jpg"><div class="caption">Lausanne View</div></div>
-</div>
-<br><br><br><br><br>
-<div class="backtop">
-  <a class="btn" href="#col3">← Previous</a>
-  <a class="btn" href="#top">Back to Top</a>
-  <a class="btn" href="#col1">← Back to First</a>
-</div>
-<br><br><br><br><br><br><br><br>
-
-<script>
-document.addEventListener('click', e => {
-  const img = e.target.closest('.gallery-item img');
-  if (!img) return;
-
-  const wrap = document.createElement('div');
-  wrap.className = 'zoomed';
-  wrap.innerHTML = `<img src="${img.src}">`;
-  document.body.appendChild(wrap);
-
-  wrap.onclick = () => wrap.remove();
-});
-</script>
+</section>
 
 </body>
 </html>
